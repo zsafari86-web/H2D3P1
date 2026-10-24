@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>چندضلعی‌های محاطی و محیطی - هندسه ۲</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f2f8f7;--ink:#12303a;--teal:#0b7f80;--blue:#2563eb;--pink:#d1346f;
+  --am:#c98500;--card:#fff;--line:#cfe3e0;--ok:#1b8f5a;--mut:#6a858c;--pur:#8e63f2;
+  --hdr-h:65px;
+  box-sizing:border-box;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0e1b1f;--ink:#e3f1ef;--teal:#37c4be;--blue:#60a5fa;--pink:#ff7aa8;
+    --am:#ffc247;--card:#16282d;--line:#27424a;--ok:#4fd592;--mut:#97b3b8;--pur:#c084fc;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0e1b1f;--ink:#e3f1ef;--teal:#37c4be;--blue:#60a5fa;--pink:#ff7aa8;
+  --am:#ffc247;--card:#16282d;--line:#27424a;--ok:#4fd592;--mut:#97b3b8;--pur:#c084fc;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;font-family:Vazirmatn,Tahoma,sans-serif;background:var(--bg);color:var(--ink);
+  line-height:2.2;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:28px 28px;
+}
+header{
+  background:linear-gradient(135deg,var(--teal),var(--blue));color:#fff;
+  padding:10px 14px;display:flex;align-items:center;justify-content:space-between;
+  gap:8px;flex-wrap:wrap;position:sticky;top:0;z-index:30;box-shadow:0 2px 10px rgba(0,0,0,.15);
+}
+header b{font-size:1rem;font-weight:800}
+.author{font-size:.8rem;font-weight:600;background:rgba(255,255,255,.2);padding:2px 8px;border-radius:8px}
+.dots{display:flex;gap:5px;flex-wrap:wrap}
+.dots button{
+  width:26px;height:26px;border-radius:50%;border:2px solid #fff;background:transparent;
+  color:#fff;font:inherit;font-size:.78rem;cursor:pointer;line-height:1;transition:.2s;
+}
+.dots button.on{background:#fff;color:var(--teal);font-weight:800;transform:scale(1.1)}
+
+.spd-btn{
+  border:0;background:rgba(255,255,255,.24);color:#fff;border-radius:8px;
+  padding:4px 12px;font:inherit;cursor:pointer;font-size:.82rem;font-weight:700;
+  display:inline-flex;align-items:center;gap:4px;transition:.2s;
+}
+.spd-btn:active{background:rgba(255,255,255,.4)}
+
+main{max-width:760px;margin:0 auto;padding:0 14px 140px}
+#fig{
+  position:sticky;top:var(--hdr-h, 65px);z-index:20;padding:6px 0 10px;background:var(--bg);
+}
+#fig:empty{display:none}
+
+h2{margin:14px 0 8px;font-size:1.24rem;color:var(--teal);font-weight:800}
+
+.typing::after{
+  content:" ▍";
+  color:var(--pink);
+  font-weight:300;
+  animation:bl 0.8s steps(2) infinite;
+}
+@keyframes bl{50%{opacity:0}}
+
+.p,.ex{margin:10px 0;font-size:1rem}
+.obj{
+  border:2px solid var(--blue);border-right:6px solid var(--blue);border-radius:12px;
+  background:var(--card);padding:12px 16px;margin:12px 0;font-weight:600;color:var(--blue);
+  line-height:2.2;box-shadow:0 4px 12px rgba(37,99,235,.06);font-size:0.98rem;
+}
+.d{
+  border:2px solid var(--teal);border-radius:12px;background:var(--card);
+  padding:12px 16px;margin:14px 0;font-weight:600;line-height:2.2;
+}
+.ex{
+  border-right:4px solid var(--pink);padding:10px 16px;background:var(--card);
+  border-radius:8px;line-height:2.2;margin:12px 0;
+}
+.st{font-weight:800;color:var(--pink);margin:16px 0 6px;font-size:1.05rem}
+
+.f,.f2{
+  direction:ltr!important;text-align:center;font-weight:700;color:var(--pink);
+  margin:10px auto;padding:10px 16px;display:flex;justify-content:center;align-items:center;
+  flex-wrap:wrap;gap:8px;line-height:1.8;background:rgba(209,52,111,.05);border-radius:10px;
+  border:1px dashed rgba(209,52,111,.28);unicode-bidi:isolate;
+}
+.f{font-size:1.24rem;min-height:2.4em}
+.f2{font-size:1.14rem}
+
+.math-tag{
+  direction:ltr!important;font-family:inherit;font-weight:700;white-space:nowrap;
+  display:inline-flex;align-items:center;justify-content:center;gap:4px;color:var(--pink);
+  background:rgba(209,52,111,.06);padding:3px 8px;border-radius:6px;border:1px dashed rgba(209,52,111,.25);font-size:1rem;
+}
+.rad{display:inline-flex;align-items:baseline;direction:ltr;unicode-bidi:isolate;white-space:nowrap;margin:0 2px}
+.r-sym{font-size:1.2em;line-height:1;margin-right:1px;font-family:system-ui,-apple-system,sans-serif;user-select:none}
+.r-body{border-top:2px solid currentColor;padding:0 3px;line-height:1.2;display:inline-block;white-space:nowrap;font-size:.95em}
+
+/* کسر ریاضی استاندارد */
+.fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 .3em;line-height:1.15}
+.fr .n{border-bottom:2px solid currentColor;padding:0 .35em;font-size:0.95em}
+.fr .dn{padding:0 .35em;font-size:0.95em}
+
+/* نشان‌های رنگی هماهنگ برای نام شکل‌ها و ویژگی‌ها در بخش ۵ */
+.badge-item{
+  display:inline-block;
+  background:rgba(11,127,128,0.14);
+  color:var(--teal);
+  padding:1px 10px;
+  border-radius:8px;
+  font-weight:800;
+  margin:0 3px;
+  border:1.5px solid rgba(11,127,128,0.35);
+  line-height:1.8;
+}
+
+.demo,.quiz{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:6px;margin:10px 0}
+#fig .demo{margin:0;box-shadow:0 8px 16px -6px rgba(0,0,0,.15);border:1.5px solid var(--line)}
+svg{user-select:none;-webkit-user-select:none;width:100%;height:auto;display:block;direction:ltr;touch-action:none;max-height:28vh}
+
+button.go{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  margin:18px auto;padding:11px 24px;font:inherit;font-weight:700;font-size:0.98rem;
+  color:#fff;background:linear-gradient(135deg,var(--pink),#e11d48);
+  border:none;border-radius:14px;cursor:pointer;
+  box-shadow:0 4px 18px rgba(209,52,111,.38);
+  animation:btnPulse 2.2s infinite ease-in-out;
+  transition:transform .15s ease;
+}
+button.go:active{transform:scale(0.96)}
+@keyframes btnPulse{
+  0%,100%{box-shadow:0 4px 16px rgba(209,52,111,.35);transform:scale(1)}
+  50%{box-shadow:0 6px 22px rgba(209,52,111,.55);transform:scale(1.025)}
+}
+
+.opts{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.opt{
+  min-width:90px;font-weight:600;padding:6px 16px;border-radius:10px;
+  border:2px solid var(--teal);background:transparent;color:var(--ink);cursor:pointer;
+}
+.opt.ok{background:var(--ok);border-color:var(--ok);color:#fff}
+.opt.no{border-color:var(--pink);color:var(--pink)}
+.fb{min-height:1.8em;color:var(--mut);font-weight:600;margin-top:4px}
+
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:14px 0;border-radius:12px;border:1px solid var(--line);background:var(--card)}
+.tbl-hint{font-size:.78rem;color:var(--mut);text-align:center;padding:6px;background:rgba(11,127,128,.05);border-bottom:1px solid var(--line)}
+.tbl{width:100%;min-width:520px;border-collapse:collapse}
+.tbl th,.tbl td{border:1px solid var(--line);padding:10px 12px;text-align:center;font-size:.9rem;vertical-align:middle}
+.tbl th{background:rgba(11,127,128,.14);color:var(--teal);font-weight:800;white-space:nowrap}
+.badge{display:inline-block;padding:2px 8px;border-radius:6px;font-weight:700;font-size:.85rem}
+.badge-ext{background:rgba(37,99,235,.12);color:var(--blue)}
+.badge-int{background:rgba(209,52,111,.12);color:var(--pink)}
+
+/* استایل‌های اشکال SVG */
+circle.cir-blue{fill:none;stroke:var(--blue);stroke-width:2.2}
+circle.cir-pur{fill:none;stroke:var(--pur);stroke-width:2.2}
+circle.cir-teal{fill:none;stroke:var(--teal);stroke-width:2.4}
+.ln-blue{stroke:var(--blue);stroke-width:2}
+.ln{stroke:var(--ink);stroke-width:1.8}
+.ln-help{stroke:var(--pink);stroke-width:1.8;stroke-dasharray:5 4}
+.ln-bisect{stroke:var(--am);stroke-width:2;stroke-dasharray:6 4}
+.pt{fill:var(--card);stroke:var(--ink);stroke-width:2}
+.pt-blue{fill:var(--blue);stroke:#fff;stroke-width:2}
+.pt-pur{fill:var(--pur);stroke:#fff;stroke-width:2}
+.pt-tan{fill:var(--am);stroke:var(--ink);stroke-width:1.8}
+.tf{fill:none;stroke:none}
+.tf.h1{fill:var(--blue);fill-opacity:.18;stroke:var(--blue);stroke-width:1.8}
+.tf.h2{fill:var(--pink);fill-opacity:.18;stroke:var(--pink);stroke-width:1.8}
+.tf.h3{fill:var(--teal);fill-opacity:.18;stroke:var(--teal);stroke-width:1.8}
+.sq{fill:none;stroke:var(--pink);stroke-width:1.8}
+text.lb{font:600 13px Vazirmatn,sans-serif;fill:var(--ink)}
+
+.nw{stroke-dasharray:1;stroke-dashoffset:1;animation:dr 1.2s ease forwards}
+@keyframes dr{to{stroke-dashoffset:0}}
+.nf{animation:fi 0.7s}
+@keyframes fi{from{opacity:0}}
+@media (prefers-reduced-motion:reduce){.typing::after,.nw,.nf{animation:none}}
+</style>
+</head>
+<body>
+<header id="header">
+  <b>چندضلعی‌های محاطی و محیطی (هندسه ۲)</b>
+  <span class="author">طراح: زینب صفری</span>
+  <div class="dots" id="dots"></div>
+  <button class="spd-btn" id="spdBtn">⏱ سرعت: ۱x (آرام)</button>
+</header>
+<main>
+  <div id="fig"></div>
+  <div id="txt"></div>
+</main>
+<script>
+const NS='http://www.w3.org/2000/svg',$=s=>document.querySelector(s);
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const el=(t,c)=>{const e=document.createElement(t);if(c)e.className=c;return e};
+let run=0,F=null;
+
+const speedProfiles = [
+  { label: '⏱ سرعت: ۱x (آرام)', factor: 1 },
+  { label: '⏱ سرعت: ۱.۵x (متوسط)', factor: 0.6 },
+  { label: '⏱ سرعت: ۲x (سریع)', factor: 0.3 }
+];
+let spdIdx = 0;
+$('#spdBtn').onclick = () => {
+  spdIdx = (spdIdx + 1) % speedProfiles.length;
+  $('#spdBtn').textContent = speedProfiles[spdIdx].label;
+};
+
+function syncHeaderHeight(){
+  const h=$('#header').offsetHeight;
+  document.documentElement.style.setProperty('--hdr-h', h + 'px');
+}
+window.addEventListener('resize', syncHeaderHeight);
+window.addEventListener('load', syncHeaderHeight);
+syncHeaderHeight();
+
+let lastScroll=0;
+function ensureVisible(e, isBtn=false, force=false){
+  const now=Date.now();
+  if(!force && now-lastScroll < 180) return;
+  lastScroll=now;
+  if(!e) return;
+  const r=e.getBoundingClientRect();
+  const bottomMargin = isBtn ? 140 : 95;
+  if(r.bottom > window.innerHeight - bottomMargin){
+    window.scrollBy({
+      top: r.bottom - window.innerHeight + bottomMargin,
+      behavior: 'smooth'
+    });
+  }
+}
+
+function formatMath(str){
+ let s = str;
+ s = s.replace(/\\frac\{([^}]+)\}\{([^}]+)\}/g, '<span class="fr"><span class="n">$1</span><span class="dn">$2</span></span>');
+ s = s.replace(/√\(([^)]+)\)/g, '<span class="rad"><span class="r-sym">√</span><span class="r-body">$1</span></span>');
+ s = s.replace(/\\sqrt\{([^}]+)\}/g, '<span class="rad"><span class="r-sym">√</span><span class="r-body">$1</span></span>');
+ s = s.replace(/√([0-9a-zA-Z\u200E′]+)/g, '<span class="rad"><span class="r-sym">√</span><span class="r-body">$1</span></span>');
+ return s;
+}
+
+function formatBadges(str){
+ return str.replace(/\[([^\]]+)\]/g, '<span class="badge-item">$1</span>');
+}
+
+async function typeWords(e, txt, tok){
+  e.classList.add('typing');
+  const words = txt.split(' ');
+  let accumulated = '';
+  for(let i=0; i<words.length; i++){
+    if(tok !== run) return;
+    const w = words[i];
+    accumulated += (i === 0 ? '' : ' ') + w;
+    e.innerHTML = formatBadges(accumulated);
+    ensureVisible(e);
+    
+    const factor = speedProfiles[spdIdx].factor;
+    let delay = 260 * factor;
+    if(/[.؛!\n]$/.test(w)) delay += 600 * factor;
+    else if(/[,،:]$/.test(w)) delay += 280 * factor;
+    await sleep(delay);
+  }
+  e.classList.remove('typing');
+  ensureVisible(e, false, true);
+}
+
+async function typeFormula(e, str, tok){
+  e.classList.add('typing');
+  e.innerHTML = formatMath(str);
+  ensureVisible(e, false, true);
+  const factor = speedProfiles[spdIdx].factor;
+  await sleep(600 * factor);
+  e.classList.remove('typing');
+}
+
+const S=[
+{k:'fig_intro',h:'۱. شناخت تفاوت چندضلعی محیطی و محاطی',items:[
+['obj','🎯 هدف این بخش: می‌خواهیم یک‌بار برای همیشه تفاوت سادهٔ «چندضلعی محیطی» و «چندضلعی محاطی» را یاد بگیریم تا بدانیم در هر حالت دایره کجاست و چندضلعی در چه موقعیتی قرار گرفته است.'],
+['st','گام ۱: چندضلعی محیطی چیست؟'],
+['d','تعریف چندضلعی محیطی: چندضلعی را «محیطی» می‌گوییم هرگاه دایره‌ای وجود داشته باشد که بر همهٔ ضلع‌های آن مماس باشد.'],
+['p','کلمهٔ «محیطی» یعنی احاطه‌کننده؛ بنابراین چندضلعی در بیرون قرار دارد و دایره را در درون خود احاطه کرده است.'],
+['p','در این حالت، دایره در درون قرار می‌گیرد و آن را «دایرهٔ محاطی» چندضلعی می‌نامیم. شکل آن را در سمت چپ کادر بالا مشاهده کنید:','drawCir',{drawCir:1}],
+['btn','👇 مفهوم محیطی را متوجه شدم؛ حالا چندضلعی محاطی را رسم کن'],
+['st','گام ۲: چندضلعی محاطی چیست؟'],
+['d','تعریف چندضلعی محاطی: چندضلعی را «محاطی» می‌گوییم هرگاه دایره‌ای وجود داشته باشد که از همهٔ رأس‌های آن عبور کند.'],
+['p','کلمهٔ «محاطی» یعنی احاطه‌شده؛ یعنی این‌بار چندضلعی در درون دایره قرار گرفته و دایره آن را احاطه کرده است.'],
+['p','در این حالت، دایره در بیرون قرار دارد و به آن «دایرهٔ محیطی» چندضلعی می‌گوییم. شکل آن را هم در سمت راست مشاهده کنید:','drawIn',{drawIn:1}],
+['btn','👇 رمزبندی ساده برای عدم اشتباه در نام‌گذاری'],
+['st','💡 رمزبندی ماندگار در حافظه:'],
+['ex','همیشه نامی که به «چندضلعی» می‌دهیم دقیقاً برعکس نام «دایره» است!'],
+['p','۱) چندضلعی محیطی (بیرون) ⟸ دایره‌اش محاطی (درون) است و بر اضلاع مماس می‌شود.'],
+['p','۲) چندضلعی محاطی (درون) ⟸ دایره‌اش محیطی (بیرون) است و از تمام رأس‌ها می‌گذرد.'],
+['btn','🎯 حالا نوبت منه'],
+['quiz',{
+ q:'اگر دایره‌ای بر تمام ضلع‌های یک پنج‌ضلعی مماس باشد، این پنج‌ضلعی از چه نوعی است؟',
+ o:['چندضلعی محاطی','چندضلعی محیطی','هیچ‌کدام'],
+ a:1,
+ h:'چون دایره بر اضلاع مماس است، پس دایره درون است و چندضلعی بیرون قرار گرفته.',
+ e:'آفرین! چون چندضلعی دایره را احاطه کرده، خودِ چندضلعی «محیطی» و دایره «محاطی» است.'
+}]]},
+
+{k:'fig_inscribed',h:'۲. شرط لازم و کافی محاطی بودن (عمودمنصف‌ها)',items:[
+['obj','🎯 هدف این بخش: می‌خواهیم بدانیم مرکز دایره‌ای که از همهٔ رأس‌های یک چندضلعی می‌گذرد دقیقاً کجاست؟ قضیهٔ این بخش ثابت می‌کند که این مرکز، محل برخورد عمودمنصف‌های اضلاع است.'],
+['d','قضیه چندضلعی‌های محاطی: یک چندضلعی، محاطی است اگر و فقط اگر عمودمنصف‌های همهٔ ضلع‌های آن در یک نقطه همرس باشند. این نقطه مرکز دایرهٔ محیطی است.'],
+['p','پنج‌ضلعی محاطی ABCDE را در کادر بالا در نظر بگیرید:','circ poly pts',{circ:1,poly:1,pts:1}],
+['btn','👇 شروع اثبات هندسی قضیه'],
+['st','گام ۱: رابطهٔ بین مرکز دایره و دو رأس مجاور A و B'],
+['p','می‌دانیم برای اینکه دایره‌ای از دو نقطهٔ A و B بگذرد، مرکز دایره حتماً باید روی «عمودمنصف» پاره‌خط AB قرار گیرد.','chordAB medAB sqAB',{chordAB:1,medAB:2,sqAB:2}],
+['p','به همین ترتیب، برای اینکه دایره از رأس‌های B و C نیز عبور کند، مرکز دایره باید روی عمودمنصف ضلع BC هم قرار داشته باشد.','medBC sqBC',{medBC:2,sqBC:2}],
+['btn','👇 تعمیم به سایر ضلع‌ها و نتیجه‌گیری'],
+['st','گام ۲: نتیجه‌گیری همرسی همهٔ عمودمنصف‌ها در مرکز دایره'],
+['p','بنابراین مرکز دایره باید هم‌زمان روی عمودمنصف تمامی اضلاع قرار داشته باشد؛ یعنی همهٔ عمودمنصف‌ها باید در یک نقطه (مرکز O) به هم برسند:','medCD medDE medEA pO',{medCD:2,medDE:2,medEA:2,pO:1}],
+['f','OA = OB = OC = OD = OE = R'],
+['ex','نتیجه: فاصلهٔ مرکز دایرهٔ محیطی از تمام رأس‌های چندضلعی برابر شعاع دایره (R) است.'],
+['btn','🎯 حالا نوبت منه'],
+['quiz',{
+ q:'مرکز دایرهٔ محیطی یک مثلث در کدام نقطه قرار دارد؟',
+ o:['محل برخورد نیمسازهای زوایای مثلث','محل برخورد میانه‌های مثلث','محل برخورد عمودمنصف‌های اضلاع مثلث'],
+ a:2,
+ h:'دایره از رأس‌ها می‌گذرد، پس فاصله‌اش از تمام رأس‌ها برابر شعاع R است.',
+ e:'چون مرکز دایره از هر سه رأس فاصلهٔ برابر دارد، دقیقاً در نقطهٔ همرسی عمودمنصف‌هاست.'
+}]]},
+
+{k:'fig_circumscribed',h:'۳. شرط لازم و کافی محیطی بودن (نیمسازها)',items:[
+['obj','🎯 هدف این بخش: می‌خواهیم بدانیم مرکز دایره‌ای که در درون چندضلعی قرار گرفته و به همهٔ ضلع‌ها تکیه داده کجاست؟ در این بخش اثبات می‌کنیم که این مرکز، محل برخورد نیمسازهای زاویه‌هاست.'],
+['d','قضیه چندضلعی‌های محیطی: یک چندضلعی، محیطی است اگر و فقط اگر نیمسازهای همهٔ زاویه‌های داخلی آن در یک نقطه همرس باشند. این نقطه مرکز دایرهٔ محاطی است.'],
+['btn','👇 شروع اثبات هندسی قضیه'],
+['p','فرض کنید دایره‌ای مانند شکل بالا بر دو ضلع یک زاویه به رأس V در نقاط تماس A و B مماس باشد.','angleArms circ pO',{angleArms:1,circ:1,pO:1}],
+['btn','👇 گام اول اثبات: رسم شعاع‌ها به نقاط تماس'],
+['st','گام ۱: شعاع‌های عمود بر اضلاع'],
+['p','شعاع‌های OA و OB را به نقاط تماس وصل می‌کنیم. شعاع دایره در نقطهٔ تماس بر خط مماس عمود است:','sOA sOB pA pB sqA sqB',{sOA:1,sOB:1,pA:1,pB:1,sqA:1,sqB:1}],
+['p','چون OA و OB هر دو شعاع دایره‌اند، پس فاصلهٔ مرکز O از هر دو ضلع زاویه برابر r است:'],
+['f2','OA = OB = r'],
+['btn','👇 گام دوم اثبات: هم‌نهشتی مثلث‌ها و اثبات نیمساز'],
+['st','گام ۲: اثبات قرار گرفتن O روی نیمساز زاویه'],
+['p','پاره‌خط VO را رسم می‌کنیم. دو مثلث قائم‌الزاویهٔ VOA و VOB به حالت (وتر و یک ضلع قائمه) هم‌نهشت هستند:','lineVO triA triB',{lineVO:2,triA:1,triB:2}],
+['f2','ΔVOA ≅ ΔVOB  ⟹  ÔVA = ÔVB'],
+['p','پس پاره‌خط VO نیمساز زاویهٔ V است؛ یعنی مرکز O حتماً روی نیمساز زاویه قرار دارد.'],
+['p','بنابراین در چندضلعی محیطی، مرکز دایره باید روی نیمساز تمام زاویه‌ها باشد؛ پس همهٔ نیمسازها در مرکز O همرسند.'],
+['btn','🎯 حالا نوبت منه'],
+['quiz',{
+ q:'چرا در یک چندضلعی محیطی، مرکز دایره روی نیمساز زاویه‌هاست؟',
+ o:['چون دایره از رأس‌ها عبور می‌کند','چون مرکز دایره از اضلاع به فاصلهٔ برابر r است','چون زاویه‌ها با هم برابرند'],
+ a:1,
+ h:'نقاطی که از دو ضلع زاویه فاصلهٔ مساوی دارند، روی چه خطی واقع‌اند؟',
+ e:'مجموعه نقاطی که از دو ضلع زاویه فاصلهٔ برابر دارند، روی نیمساز آن زاویه قرار دارند.'
+}]]},
+
+{k:'fig_area',h:'۴. محاسبهٔ مساحت چندضلعی محیطی',items:[
+['obj','🎯 هدف این بخش: اثبات یک رابطهٔ طلایی و بسیار کاربردی در کنکور و امتحانات نهایی؛ محاسبهٔ مساحت چندضلعی محیطی تنها به کمک شعاع دایره و محیط آن، بدون نیاز به روش‌های طولانی.'],
+['d','قضیه مساحت چندضلعی محیطی: مساحت هر چندضلعی محیطی با محیط 2p و شعاع دایرهٔ محاطی r برابر است با: S = r · p'],
+['p','یک پنج‌ضلعی محیطی با اضلاع a, b, c, d, e و شعاع دایرهٔ محاطی r را در شکل بالا ببینید. اندازهٔ اضلاع و شعاع مشخص است:','circ poly pO sideLabels',{circ:1,poly:1,pO:1,sideLabels:1}],
+['btn','👇 گام اول اثبات: تقسیم چندضلعی به ۵ مثلث'],
+['st','گام ۱: وصل کردن مرکز O به رأس‌ها'],
+['p','مرکز دایره (O) را به تک‌تک رأس‌ها وصل می‌کنیم تا شکل به ۵ مثلث تبدیل شود:','linesToV tri1 tri2 tri3 tri4 tri5',{linesToV:1,tri1:1,tri2:2,tri3:1,tri4:2,tri5:3}],
+['btn','👇 گام دوم اثبات: تعیین ارتفاع هر مثلث'],
+['st','گام ۲: ارتفاع هر مثلث همان شعاع r است'],
+['p','در هر مثلث، ارتفاع وارد بر ضلع برابر شعاع r است؛ چون شعاع بر خط مماس عمود است:','radAlt sqAlt',{radAlt:2,sqAlt:2}],
+['btn','👇 گام سوم اثبات: نوشتن مجموع مساحت‌ها'],
+['st','گام ۳: محاسبهٔ مساحت کل پنج‌ضلعی'],
+['p','مساحت کل برابر است با حاصل‌جمع مساحت این ۵ مثلث:'],
+['f2','S = \\frac{1}{2}a·r + \\frac{1}{2}b·r + \\frac{1}{2}c·r + \\frac{1}{2}d·r + \\frac{1}{2}e·r'],
+['btn','👇 گام چهارم اثبات: فاکتورگیری و رسیدن به فرمول طلایی'],
+['st','گام ۴: فاکتورگیری از r'],
+['p','از عبارت r فاکتور مشترک می‌گیریم:'],
+['f2','S = r · \\frac{a + b + c + d + e}{2}'],
+['p','چون مجموع اضلاع همان محیط (2p) است، کسر بالا دقیقاً برابر نیم‌محیط (p) می‌شود:'],
+['f','S = r · p'],
+['btn','👇 مشاهده و حل مثال عددی کاربردی'],
+['st','مثال عددی:'],
+['ex','محیط یک چندضلعی محیطی ۳۰ سانتی‌متر و مساحت آن ۶۰ سانتی‌متر مربع است. شعاع دایرهٔ محاطی آن چقدر است؟'],
+['f2','2p = 30  ⟹  p = 15'],
+['f2','S = r · p  ⟹  60 = r × 15  ⟹  r = 4 cm'],
+['btn','🎯 حالا نوبت منه'],
+['quiz',{
+ q:'اگر در یک چهارضلعی محیطی، مساحت S = 42 و شعاع r = 3 باشد، محیط کل (2p) چقدر است؟',
+ o:['محیط = ۱۴','محیط = ۲۱','محیط = ۲۸'],
+ a:2,
+ h:'ابتدا از رابطهٔ S = r · p نیم‌محیط p را بیابید و سپس آن را دو برابر کنید.',
+ e:'p = 42 ÷ 3 = 14؛ بنابراین محیط کامل برابر 2p = 28 است.'
+}]]},
+
+{k:'fig_quads',h:'۵. چهارضلعی‌های خاص محاطی و محیطی',items:[
+['obj','🎯 هدف این بخش: کشف رازهای شگفت‌انگیز چهارضلعی‌ها؛ چرا هر چهارضلعی دلخواهی نمی‌تواند محاطی یا محیطی باشد؟ بررسی قضیه زوایای روبرو و قضیه پیتو برای اضلاع.'],
+['st','بخش اول: چهارضلعی محاطی (سمت راست شکل بالا)'],
+['d','قضیه چهارضلعی محاطی: یک چهارضلعی، محاطی است اگر و فقط اگر مجموع هر دو زاویهٔ روبه‌روی آن ۱۸۰ درجه باشد.'],
+['p','شکل سمت راست کادر بالا را مشاهده کنید. در این چهارضلعی محاطی، زوایای مقابل مکمل یکدیگرند:','quadIn circIn arcA arcC',{quadIn:1,circIn:1,arcA:1,arcC:1}],
+['f','Â + Ĉ = 180°  ,  B̂ + D̂ = 180°'],
+['btn','👇 حالا بررسی چهارضلعی محیطی (سمت چپ شکل)'],
+['st','بخش دوم: چهارضلعی محیطی و قضیه پیتو (سمت چپ شکل بالا)'],
+['d','قضیه چهارضلعی محیطی (قضیه پیتو): یک چهارضلعی، محیطی است اگر و فقط اگر مجموع دو ضلع روبه‌رو با مجموع دو ضلع دیگر برابر باشد.'],
+['p','شکل سمت چپ کادر بالا را ببینید. دایره بر هر چهار ضلع این ذوزنقه مماس است و تساوی پیتو کاملاً روی آن برقرار است:','quadCir circCir sideLabels',{quadCir:2,circCir:2,sideLabels:2}],
+['f','AB + CD = AD + BC   (a + c = b + d)'],
+['btn','👇 بررسی وضعیت شکل‌های معروف هندسی'],
+['st','بررسی اشکال معروف:'],
+['p','• [مستطیل]: زوایایش ۹۰ درجه است پس زوایای روبه‌رو ۱۸۰ درجه می‌شوند؛ بنابراین [همیشه محاطی] است.'],
+['p','• [لوزی]: اضلاعش برابر است پس مجموع اضلاع روبه‌رو برابر است؛ بنابراین [همیشه محیطی] است.'],
+['p','• [مربع]: هم زوایایش ۹۰ و هم اضلاعش برابر است؛ بنابراین [هم محاطی و هم محیطی] است.'],
+['btn','🎯 حالا نوبت منه'],
+['quiz',{
+ q:'کدام چهارضلعی همواره هم محاطی است و هم محیطی؟',
+ o:['مستطیل','مربع','لوزی'],
+ a:1,
+ h:'شکلی را پیدا کنید که هم زوایای روبرویش ۱۸۰ درجه باشند و هم اضلاعش برابر باشند.',
+ e:'مربع به دلیل داشتن زوایای قائمه و اضلاع مساوی، هر دو ویژگی را داراست.'
+}]]},
+
+{h:'۶. جدول‌های جمع‌بندی مقایسه‌ای',items:[
+['obj','🎯 خلاصه و دسته‌بندی جامع: مقایسهٔ دایرهٔ محاطی و محیطی و بررسی وضعیت تمام چندضلعی‌های معروف.'],
+['st','جدول ۱: مقایسهٔ دایرهٔ محیطی و دایرهٔ محاطی'],
+['tbl',`
+<div class="tbl-hint">↔️ جدول قابل اسکرول به طرفین است</div>
+<table class="tbl">
+ <thead>
+  <tr>
+   <th>ویژگی</th>
+   <th>چندضلعی محاطی (دایرهٔ محیطی)</th>
+   <th>چندضلعی محیطی (دایرهٔ محاطی)</th>
+  </tr>
+ </thead>
+ <tbody>
+  <tr>
+   <td><b>موقعیت دایره</b></td>
+   <td>دایره از <b>تمام رأس‌های</b> چندضلعی می‌گذرد.</td>
+   <td>دایره بر <b>تمام ضلع‌های</b> چندضلعی مماس است.</td>
+  </tr>
+  <tr>
+   <td><b>مرکز دایره (O)</b></td>
+   <td>نقطهٔ همرسی <b>عمودمنصف‌های اضلاع</b></td>
+   <td>نقطهٔ همرسی <b>نیمسازهای زوایای داخلی</b></td>
+  </tr>
+  <tr>
+   <td><b>شعاع دایره</b></td>
+   <td>فاصلهٔ مرکز تا رأس‌ها (<span class="math-tag">OA = R</span>)</td>
+   <td>فاصلهٔ مرکز تا اضلاع (<span class="math-tag">OH = r</span>)</td>
+  </tr>
+  <tr>
+   <td><b>رابطه در چهارضلعی</b></td>
+   <td>زاویه‌های روبه‌رو مکمل‌اند: <span class="math-tag">Â + Ĉ = 180°</span></td>
+   <td>مجموع اضلاع روبه‌رو برابر است: <span class="math-tag">a + c = b + d</span></td>
+  </tr>
+  <tr>
+   <td><b>فرمول مساحت</b></td>
+   <td>بستگی به نوع چندضلعی دارد</td>
+   <td>فرمول مستقیم طلایی: <span class="math-tag">S = r · p</span></td>
+  </tr>
+ </tbody>
+</table>
+`],
+['st','جدول ۲: وضعیت چندضلعی‌های معروف از نظر محاطی یا محیطی بودن'],
+['tbl',`
+<div class="tbl-hint">↔️ جدول قابل اسکرول به طرفین است</div>
+<table class="tbl">
+ <thead>
+  <tr>
+   <th>نوع شکل</th>
+   <th>محاطی است؟</th>
+   <th>محیطی است؟</th>
+   <th>توضیحات و دلیل هندسی</th>
+  </tr>
+ </thead>
+ <tbody>
+  <tr>
+   <td><b>هر نوع مثلث</b></td>
+   <td><span class="badge badge-ext">همیشه بله</span></td>
+   <td><span class="badge badge-int">همیشه بله</span></td>
+   <td>عمودمنصف‌ها و نیمسازهای هر مثلثی همواره همرسند.</td>
+  </tr>
+  <tr>
+   <td><b>مربع</b></td>
+   <td><span class="badge badge-ext">همیشه بله</span></td>
+   <td><span class="badge badge-int">همیشه بله</span></td>
+   <td>هم زوایای روبه‌رو ۱۸۰ درجه‌اند و هم اضلاع جمع برابری دارند.</td>
+  </tr>
+  <tr>
+   <td><b>مستطیل (غیر مربع)</b></td>
+   <td><span class="badge badge-ext">همیشه بله</span></td>
+   <td><b>خیر</b></td>
+   <td>زوایای روبه‌رو ۹۰+۹۰=۱۸۰ هستند اما نیمسازهایش در یک نقطه همرس نمی‌شوند.</td>
+  </tr>
+  <tr>
+   <td><b>لوزی (غیر مربع)</b></td>
+   <td><b>خیر</b></td>
+   <td><span class="badge badge-int">همیشه بله</span></td>
+   <td>نیمسازهایش همرسند اما عمودمنصف‌های اضلاعش در یک نقطه به هم نمی‌رسند.</td>
+  </tr>
+  <tr>
+   <td><b>متوازی‌الأضلاع عام</b></td>
+   <td><b>خیر</b></td>
+   <td><b>خیر</b></td>
+   <td>نه زوایای روبه‌رو مکمل‌اند و نه نیمسازهایش همرسند.</td>
+  </tr>
+  <tr>
+   <td><b>ذوزنقه متساوی‌الساقین</b></td>
+   <td><span class="badge badge-ext">همیشه بله</span></td>
+   <td><b>در حالت خاص</b></td>
+   <td>زاویه‌های روبه‌رو همواره مکمل یکدیگرند.</td>
+  </tr>
+ </tbody>
+</table>
+`]]},
+
+{h:'۷. آزمون و تمرین‌های تعاملی جامع',items:[
+['obj','🎯 آزمون جامع پایانی: میزان تسلط کامل خود بر تمام مفاهیم و فرمول‌های این درس را بسنجید.'],
+['quiz',{
+ q:'شعاع دایرهٔ محاطی یک چندضلعی r = 5 و مساحت آن برابر 85 است. محیط این چندضلعی چقدر است؟',
+ o:['محیط = ۱۷','محیط = ۳۴','محیط = ۴۲.۵'],
+ a:1,
+ h:'از فرمول S = r · p استفاده کنید. ابتدا نیم‌محیط (p) را بیابید و سپس آن را دو برابر کنید.',
+ e:'p = 85 ÷ 5 = 17. محیط کامل برابر است با 2p = 2 × 17 = 34.'
+}],
+['quiz',{
+ q:'در یک چهارضلعی محیطی، طول اضلاع به ترتیب a=6 و b=9 و c=11 است. طول ضلع چهارم (d) چقدر است؟',
+ o:['d = 7','d = 10','d = 8'],
+ a:2,
+ h:'طبق قضیه پیتو مجموع اضلاع روبه‌رو با هم برابر است: a + c = b + d.',
+ e:'داریم 6 + 11 = 9 + d، بنابراین 17 = 9 + d که نتیجه می‌دهد d = 8.'
+}],
+['quiz',{
+ q:'کدام‌یک از شرایط زیر نشان می‌دهد که یک چهارضلعی حتماً «محاطی» است؟',
+ o:['مجموع دو زاویهٔ روبه‌روی آن ۱۸۰ درجه باشد','طول همهٔ اضلاع آن با هم برابر باشد','قطرهایش بر هم عمود باشند'],
+ a:0,
+ h:'به قضیهٔ زوایای محاطی در دایره و کمان‌های روبه‌رو فکر کنید.',
+ e:'در هر چهارضلعی محاطی، مجموع هر دو زاویهٔ روبه‌رو برابر با نصف کل دایره یعنی 180 درجه است.'
+}],
+['quiz',{
+ q:'چرا یک مستطیل (که مربع نباشد) نمی‌تواند محیطی باشد؟',
+ o:['چون زاویه‌هایش ۹۰ درجه است','چون قطرهایش با هم برابرند','چون نیمسازهای زوایای آن در یک نقطه همرس نمی‌شوند'],
+ a:2,
+ h:'نیمسازهای یک مستطیل را رسم کنید؛ در یک نقطه به هم نمی‌رسند بلکه درون مستطیل یک چهارضلعی می‌سازند.',
+ e:'نیمسازهای چهار زاویهٔ یک مستطیل در یک نقطه همرس نمی‌شوند، بنابراین دایره‌ای مماس بر هر چهار ضلع آن وجود ندارد.'
+}],
+['p','آفرین! شما تمامی مفاهیم، قضایا و فعالیت‌های چندضلعی‌های محاطی و محیطی را با موفقیت فرا گرفتید. 🌟']
+]}
+];
+
+function mark(i){document.querySelectorAll('#dots button').forEach((b,j)=>b.classList.toggle('on',i===j));}
+S.forEach((s,i)=>{const b=el('button');b.textContent=i+1;b.onclick=()=>stage(i);$('#dots').append(b)});
+
+async function stage(i){
+ const tok=++run;const s=S[i],box=$('#txt');box.innerHTML='';mark(i);window.scrollTo(0,0);
+ $('#fig').innerHTML='';F=s.k?mkFig(s.k):null;if(F)$('#fig').append(F.w);
+ syncHeaderHeight();
+ 
+ const h=el('h2');box.append(h);await typeWords(h,s.h,tok);
+ const factor = speedProfiles[spdIdx].factor;
+ await sleep(350 * factor);
+ 
+ for(const [k,v,sh,hl] of s.items){
+  if(tok!==run)return;
+  if(k==='tbl'){
+   const tw=el('div','tbl-wrap');tw.innerHTML=v;box.append(tw);ensureVisible(tw, false, true);
+   await sleep(500 * factor);continue;
+  }
+  if(k==='quiz'){await quiz(box,v);continue}
+  if(k==='btn'){await gate(box,v);continue}
+  if(k==='st'){
+   const st=el('div','st');box.append(st);await typeWords(st,v,tok);
+   await sleep(300 * factor);continue;
+  }
+  
+  const e=el('div',k==='obj'?'obj':k);box.append(e);
+  if(F&&(sh!=null||hl))F.cue(sh,hl);
+  if(k==='f'||k==='f2'){
+    await typeFormula(e,v,tok);
+  } else {
+    await typeWords(e,v,tok);
+  }
+  await sleep((k==='p'||k==='ex'||k==='d'||k==='obj'?450:250) * factor);
+ }
+ if(tok!==run)return;
+ const n=el('button','go');n.textContent=i<S.length-1?'گام بعدی ◀':'شروع دوباره';
+ n.onclick=()=>stage((i+1)%S.length);box.append(n);ensureVisible(n, true, true);
+}
+
+function gate(box,label){
+  return new Promise(r=>{
+    const b=el('button','go');
+    b.textContent=label;
+    b.onclick=()=>{b.remove();r()};
+    box.append(b);
+    ensureVisible(b, true, true);
+  });
+}
+
+function quiz(box,v){
+  return new Promise(res=>{
+    const q=el('div','quiz'),t=el('b'),row=el('div','opts'),fb=el('div','fb');t.textContent=v.q;
+    v.o.forEach((s,i)=>{
+      const b=el('button','opt');b.dir='auto';b.textContent=s;
+      b.onclick=()=>{
+        if(i===v.a){
+          b.classList.add('ok');fb.textContent='آفرین! '+v.e;
+          row.querySelectorAll('button').forEach(x=>x.disabled=true);
+          setTimeout(res,1400);
+        } else {
+          b.classList.add('no');fb.textContent='دوباره فکر کن. راهنما: '+v.h;
+        }
+      };
+      row.append(b);
+    });
+    q.append(t,row,fb);box.append(q);ensureVisible(q, true, true);
+  });
+}
+
+function rightAngle(V,P1,P2,size=8){
+ const v1={x:(P1.x-V.x)/Math.hypot(P1.x-V.x,P1.y-V.y),y:(P1.y-V.y)/Math.hypot(P1.x-V.x,P1.y-V.y)};
+ const v2={x:(P2.x-V.x)/Math.hypot(P2.x-V.x,P2.y-V.y),y:(P2.y-V.y)/Math.hypot(P2.x-V.x,P2.y-V.y)};
+ const a={x:V.x+v1.x*size,y:V.y+v1.y*size};
+ const b={x:a.x+v2.x*size,y:a.y+v2.y*size};
+ const c={x:V.x+v2.x*size,y:V.y+v2.y*size};
+ return `M${a.x} ${a.y} L${b.x} ${b.y} L${c.x} ${c.y}`;
+}
+
+function mkFig(kind){
+ const w=el('div','demo'),svg=document.createElementNS(NS,'svg');
+ svg.setAttribute('viewBox','0 0 480 270');w.append(svg);
+ const vis=new Set(),fresh=new Set();let hl={};
+
+ function draw(){
+  const c=(k,base,isFill)=>base+(hl[k]?' h'+hl[k]:'')+(fresh.has(k)?(isFill?' nf':' nw'):'');
+  const V=k=>vis.has(k);
+  let s='';
+
+  if(kind==='fig_intro'){
+   const O1={x:125,y:135}, r1=48, Rout1=r1/Math.cos(36*Math.PI/180);
+   const Vpts1=[];
+   for(let k=0;k<5;k++){
+    const ang=(-54+k*72)*Math.PI/180;
+    Vpts1.push({x:O1.x+Rout1*Math.cos(ang), y:O1.y+Rout1*Math.sin(ang)});
+   }
+   if(V('drawCir')){
+    s+=`<polygon pathLength="1" class="${c('drawCir','tf h2')}" style="stroke:var(--pink);stroke-width:2.4" points="${Vpts1.map(p=>p.x+','+p.y).join(' ')}"/>`;
+    s+=`<circle pathLength="1" class="${c('drawCir','cir-teal')}" cx="${O1.x}" cy="${O1.y}" r="${r1}"/>`;
+    s+=`<circle class="pt nf" cx="${O1.x}" cy="${O1.y}" r="3.5"/>`;
+    s+=`<text class="lb nf" style="fill:var(--pink);font-weight:800" x="${O1.x-45}" y="36">چندضلعی محیطی</text>`;
+    s+=`<text class="lb nf" style="fill:var(--mut);font-size:12px" x="${O1.x-52}" y="240">(دایره محاطی در درون)</text>`;
+   }
+
+   const O2={x:355,y:135}, R2=64;
+   const Vpts2=[];
+   for(let k=0;k<5;k++){
+    const ang=(-90+k*72)*Math.PI/180;
+    Vpts2.push({x:O2.x+R2*Math.cos(ang), y:O2.y+R2*Math.sin(ang)});
+   }
+   if(V('drawIn')){
+    s+=`<circle pathLength="1" class="${c('drawIn','cir-teal')}" cx="${O2.x}" cy="${O2.y}" r="${R2}"/>`;
+    s+=`<polygon pathLength="1" class="${c('drawIn','tf h1')}" style="stroke:var(--blue);stroke-width:2.4" points="${Vpts2.map(p=>p.x+','+p.y).join(' ')}"/>`;
+    Vpts2.forEach(p=>{ s+=`<circle class="pt nf" cx="${p.x}" cy="${p.y}" r="3.5"/>`; });
+    s+=`<circle class="pt nf" cx="${O2.x}" cy="${O2.y}" r="3.5"/>`;
+    s+=`<text class="lb nf" style="fill:var(--blue);font-weight:800" x="${O2.x-45}" y="36">چندضلعی محاطی</text>`;
+    s+=`<text class="lb nf" style="fill:var(--mut);font-size:12px" x="${O2.x-52}" y="240">(دایره محیطی در بیرون)</text>`;
+   }
+  }
+  else if(kind==='fig_inscribed'){
+   const O={x:240,y:142}, R=80;
+   const A={x:240,y:O.y-R};
+   const B={x:O.x+R*Math.cos(-18*Math.PI/180), y:O.y+R*Math.sin(-18*Math.PI/180)};
+   const C={x:O.x+R*Math.cos(56*Math.PI/180), y:O.y+R*Math.sin(56*Math.PI/180)};
+   const D={x:O.x+R*Math.cos(130*Math.PI/180), y:O.y+R*Math.sin(130*Math.PI/180)};
+   const E={x:O.x+R*Math.cos(208*Math.PI/180), y:O.y+R*Math.sin(208*Math.PI/180)};
+
+   const mAB={x:(A.x+B.x)/2, y:(A.y+B.y)/2};
+   const mBC={x:(B.x+C.x)/2, y:(B.y+C.y)/2};
+   const mCD={x:(C.x+D.x)/2, y:(C.y+D.y)/2};
+   const mDE={x:(D.x+E.x)/2, y:(D.y+E.y)/2};
+   const mEA={x:(E.x+A.x)/2, y:(E.y+A.y)/2};
+
+   if(V('circ'))s+=`<circle pathLength="1" class="${c('circ','cir-teal')}" cx="${O.x}" cy="${O.y}" r="${R}"/>`;
+   if(V('poly'))s+=`<polygon pathLength="1" class="${c('poly','tf h1')}" style="stroke:var(--blue);stroke-width:2" points="${A.x},${A.y} ${B.x},${B.y} ${C.x},${C.y} ${D.x},${D.y} ${E.x},${E.y}"/>`;
+
+   if(V('chordAB'))s+=`<line pathLength="1" class="${c('chordAB','ln-blue')}" style="stroke-width:2.6" x1="${A.x}" y1="${A.y}" x2="${B.x}" y2="${B.y}"/>`;
+   if(V('medAB'))s+=`<line pathLength="1" class="${c('medAB','ln-help')}" x1="${mAB.x+0.5*(mAB.x-O.x)}" y1="${mAB.y+0.5*(mAB.y-O.y)}" x2="${O.x}" y2="${O.y}"/>`;
+   if(V('medBC'))s+=`<line pathLength="1" class="${c('medBC','ln-help')}" x1="${mBC.x+0.5*(mBC.x-O.x)}" y1="${mBC.y+0.5*(mBC.y-O.y)}" x2="${O.x}" y2="${O.y}"/>`;
+   if(V('medCD'))s+=`<line pathLength="1" class="${c('medCD','ln-help')}" x1="${mCD.x+0.5*(mCD.x-O.x)}" y1="${mCD.y+0.5*(mCD.y-O.y)}" x2="${O.x}" y2="${O.y}"/>`;
+   if(V('medDE'))s+=`<line pathLength="1" class="${c('medDE','ln-help')}" x1="${mDE.x+0.5*(mDE.x-O.x)}" y1="${mDE.y+0.5*(mDE.y-O.y)}" x2="${O.x}" y2="${O.y}"/>`;
+   if(V('medEA'))s+=`<line pathLength="1" class="${c('medEA','ln-help')}" x1="${mEA.x+0.5*(mEA.x-O.x)}" y1="${mEA.y+0.5*(mEA.y-O.y)}" x2="${O.x}" y2="${O.y}"/>`;
+
+   if(V('sqAB'))s+=`<path class="${c('sqAB','sq',1)}" d="${rightAngle(mAB,A,O,7)}"/>`;
+   if(V('sqBC'))s+=`<path class="${c('sqBC','sq',1)}" d="${rightAngle(mBC,B,O,7)}"/>`;
+
+   if(V('pts')){
+    s+=`<circle class="pt nf" cx="${A.x}" cy="${A.y}" r="3.5"/><text class="lb nf" x="${A.x-4}" y="${A.y-8}">A</text>`;
+    s+=`<circle class="pt nf" cx="${B.x}" cy="${B.y}" r="3.5"/><text class="lb nf" x="${B.x+8}" y="${B.y+4}">B</text>`;
+    s+=`<circle class="pt nf" cx="${C.x}" cy="${C.y}" r="3.5"/><text class="lb nf" x="${C.x+6}" y="${C.y+16}">C</text>`;
+    s+=`<circle class="pt nf" cx="${D.x}" cy="${D.y}" r="3.5"/><text class="lb nf" x="${D.x-14}" y="${D.y+16}">D</text>`;
+    s+=`<circle class="pt nf" cx="${E.x}" cy="${E.y}" r="3.5"/><text class="lb nf" x="${E.x-16}" y="${E.y+4}">E</text>`;
+   }
+   if(V('pO'))s+=`<circle class="pt-pur nf" cx="${O.x}" cy="${O.y}" r="4.5"/><text class="lb nf" x="${O.x+7}" y="${O.y+4}">O</text>`;
+  }
+  else if(kind==='fig_circumscribed'){
+   const Vpt={x:65,y:135}, O={x:255,y:135}, d=190, ang=25*Math.PI/180;
+   const r=d*Math.sin(ang);
+   const tDist=d*Math.cos(ang);
+   const A={x:Vpt.x+tDist*Math.cos(ang), y:Vpt.y-tDist*Math.sin(ang)};
+   const B={x:Vpt.x+tDist*Math.cos(ang), y:Vpt.y+tDist*Math.sin(ang)};
+
+   if(V('triA'))s+=`<polygon class="${c('triA','tf h1',1)}" points="${Vpt.x},${Vpt.y} ${A.x},${A.y} ${O.x},${O.y}"/>`;
+   if(V('triB'))s+=`<polygon class="${c('triB','tf h2',1)}" points="${Vpt.x},${Vpt.y} ${B.x},${B.y} ${O.x},${O.y}"/>`;
+
+   if(V('circ'))s+=`<circle pathLength="1" class="${c('circ','cir-teal')}" cx="${O.x}" cy="${O.y}" r="${r}"/>`;
+
+   if(V('angleArms')){
+    s+=`<line pathLength="1" class="ln" style="stroke-width:2" x1="${Vpt.x}" y1="${Vpt.y}" x2="${Vpt.x+340*Math.cos(ang)}" y2="${Vpt.y-340*Math.sin(ang)}"/>`;
+    s+=`<line pathLength="1" class="ln" style="stroke-width:2" x1="${Vpt.x}" y1="${Vpt.y}" x2="${Vpt.x+340*Math.cos(ang)}" y2="${Vpt.y+340*Math.sin(ang)}"/>`;
+    s+=`<circle class="pt nf" cx="${Vpt.x}" cy="${Vpt.y}" r="4"/><text class="lb nf" x="${Vpt.x-16}" y="${Vpt.y+5}">V</text>`;
+   }
+
+   if(V('lineVO'))s+=`<line pathLength="1" class="${c('lineVO','ln-bisect')}" x1="${Vpt.x}" y1="${Vpt.y}" x2="${O.x+100}" y2="${O.y}"/>`;
+   if(V('sOA'))s+=`<line pathLength="1" class="${c('sOA','ln-pink')}" style="stroke:var(--pink);stroke-width:2.2" x1="${O.x}" y1="${O.y}" x2="${A.x}" y2="${A.y}"/>`;
+   if(V('sOB'))s+=`<line pathLength="1" class="${c('sOB','ln-pink')}" style="stroke:var(--pink);stroke-width:2.2" x1="${O.x}" y1="${O.y}" x2="${B.x}" y2="${B.y}"/>`;
+
+   if(V('sqA'))s+=`<path class="${c('sqA','sq',1)}" d="${rightAngle(A,O,Vpt,8)}"/>`;
+   if(V('sqB'))s+=`<path class="${c('sqB','sq',1)}" d="${rightAngle(B,O,Vpt,8)}"/>`;
+
+   if(V('pA'))s+=`<circle class="pt-tan nf" cx="${A.x}" cy="${A.y}" r="4"/><text class="lb nf" x="${A.x-8}" y="${A.y-8}">A</text><text class="lb nf" style="fill:var(--pink)" x="${(O.x+A.x)/2-16}" y="${(O.y+A.y)/2}">r</text>`;
+   if(V('pB'))s+=`<circle class="pt-tan nf" cx="${B.x}" cy="${B.y}" r="4"/><text class="lb nf" x="${B.x-8}" y="${B.y+20}">B</text><text class="lb nf" style="fill:var(--pink)" x="${(O.x+B.x)/2-16}" y="${(O.y+B.y)/2+14}">r</text>`;
+   if(V('pO'))s+=`<circle class="pt-pur nf" cx="${O.x}" cy="${O.y}" r="4.5"/><text class="lb nf" x="${O.x+8}" y="${O.y+5}">O</text>`;
+  }
+  else if(kind==='fig_area'){
+   const O={x:240,y:135}, r=64, Rout=r/Math.cos(36*Math.PI/180);
+   const Vpts=[];
+   for(let k=0;k<5;k++){
+    const ang=(-54+k*72)*Math.PI/180;
+    Vpts.push({x:O.x+Rout*Math.cos(ang), y:O.y+Rout*Math.sin(ang)});
+   }
+   const Tpts=[];
+   for(let k=0;k<5;k++){
+    const ang=(-90+k*72)*Math.PI/180;
+    Tpts.push({x:O.x+r*Math.cos(ang), y:O.y+r*Math.sin(ang)});
+   }
+
+   if(V('tri1'))s+=`<polygon class="${c('tri1','tf h1',1)}" points="${O.x},${O.y} ${Vpts[4].x},${Vpts[4].y} ${Vpts[0].x},${Vpts[0].y}"/>`;
+   if(V('tri2'))s+=`<polygon class="${c('tri2','tf h2',1)}" points="${O.x},${O.y} ${Vpts[0].x},${Vpts[0].y} ${Vpts[1].x},${Vpts[1].y}"/>`;
+   if(V('tri3'))s+=`<polygon class="${c('tri3','tf h3',1)}" points="${O.x},${O.y} ${Vpts[1].x},${Vpts[1].y} ${Vpts[2].x},${Vpts[2].y}"/>`;
+   if(V('tri4'))s+=`<polygon class="${c('tri4','tf h1',1)}" points="${O.x},${O.y} ${Vpts[2].x},${Vpts[2].y} ${Vpts[3].x},${Vpts[3].y}"/>`;
+   if(V('tri5'))s+=`<polygon class="${c('tri5','tf h2',1)}" points="${O.x},${O.y} ${Vpts[3].x},${Vpts[3].y} ${Vpts[4].x},${Vpts[4].y}"/>`;
+
+   if(V('circ'))s+=`<circle pathLength="1" class="${c('circ','cir-teal')}" cx="${O.x}" cy="${O.y}" r="${r}"/>`;
+   if(V('poly'))s+=`<polygon pathLength="1" class="${c('poly','ln')}" style="stroke:var(--ink);stroke-width:2.2;fill:none" points="${Vpts.map(p=>p.x+','+p.y).join(' ')}"/>`;
+
+   if(V('linesToV')){
+    Vpts.forEach(p=>{
+     s+=`<line pathLength="1" class="ln-help" style="stroke:var(--blue);stroke-width:1.8" x1="${O.x}" y1="${O.y}" x2="${p.x}" y2="${p.y}"/>`;
+    });
+   }
+   if(V('radAlt')){
+    Tpts.forEach((t)=>{
+     s+=`<line pathLength="1" class="ln-pink" style="stroke:var(--pink);stroke-width:2" x1="${O.x}" y1="${O.y}" x2="${t.x}" y2="${t.y}"/>`;
+    });
+    s+=`<text class="lb nf" style="fill:var(--pink);font-weight:800;font-size:15px" x="${O.x-16}" y="${(O.y+Tpts[0].y)/2+4}">r</text>`;
+   }
+   if(V('sqAlt')){
+    s+=`<path class="${c('sqAlt','sq',1)}" d="${rightAngle(Tpts[0],Vpts[0],O,7)}"/>`;
+   }
+   if(V('sideLabels')){
+    s+=`<text class="lb nf" style="fill:var(--pink);font-weight:800;font-size:14px" x="236" y="52">a</text>`;
+    s+=`<text class="lb nf" style="fill:var(--pink);font-weight:800;font-size:14px" x="326" y="118">b</text>`;
+    s+=`<text class="lb nf" style="fill:var(--pink);font-weight:800;font-size:14px" x="296" y="218">c</text>`;
+    s+=`<text class="lb nf" style="fill:var(--pink);font-weight:800;font-size:14px" x="176" y="218">d</text>`;
+    s+=`<text class="lb nf" style="fill:var(--pink);font-weight:800;font-size:14px" x="146" y="118">e</text>`;
+   }
+   if(V('pO'))s+=`<circle class="pt-pur nf" cx="${O.x}" cy="${O.y}" r="4.5"/><text class="lb nf" x="${O.x+7}" y="${O.y+4}">O</text>`;
+  }
+  else if(kind==='fig_quads'){
+   const O_In={x:345,y:140}, R_In=62;
+   const qA={x:O_In.x+R_In*Math.cos(-130*Math.PI/180), y:O_In.y+R_In*Math.sin(-130*Math.PI/180)};
+   const qB={x:O_In.x+R_In*Math.cos(-35*Math.PI/180), y:O_In.y+R_In*Math.sin(-35*Math.PI/180)};
+   const qC={x:O_In.x+R_In*Math.cos(50*Math.PI/180), y:O_In.y+R_In*Math.sin(50*Math.PI/180)};
+   const qD={x:O_In.x+R_In*Math.cos(140*Math.PI/180), y:O_In.y+R_In*Math.sin(140*Math.PI/180)};
+
+   if(V('circIn'))s+=`<circle pathLength="1" class="${c('circIn','cir-blue')}" cx="${O_In.x}" cy="${O_In.y}" r="${R_In}"/>`;
+   if(V('quadIn')){
+    s+=`<polygon pathLength="1" class="${c('quadIn','tf h1')}" style="stroke:var(--blue);stroke-width:2" points="${qA.x},${qA.y} ${qB.x},${qB.y} ${qC.x},${qC.y} ${qD.x},${qD.y}"/>`;
+    s+=`<text class="lb nf" style="fill:var(--blue);font-weight:800" x="${O_In.x-56}" y="34">چهارضلعی محاطی (راست)</text>`;
+    s+=`<circle class="pt nf" cx="${qA.x}" cy="${qA.y}" r="3.5"/><text class="lb nf" x="${qA.x-10}" y="${qA.y-4}">A</text>`;
+    s+=`<circle class="pt nf" cx="${qB.x}" cy="${qB.y}" r="3.5"/><text class="lb nf" x="${qB.x+6}" y="${qB.y-4}">B</text>`;
+    s+=`<circle class="pt nf" cx="${qC.x}" cy="${qC.y}" r="3.5"/><text class="lb nf" x="${qC.x+6}" y="${qC.y+12}">C</text>`;
+    s+=`<circle class="pt nf" cx="${qD.x}" cy="${qD.y}" r="3.5"/><text class="lb nf" x="${qD.x-14}" y="${qD.y+10}">D</text>`;
+   }
+   if(V('arcA'))s+=`<circle class="nf" cx="${qA.x}" cy="${qA.y}" r="11" style="fill:none;stroke:var(--pink);stroke-width:2;stroke-dasharray:4 4"/>`;
+   if(V('arcC'))s+=`<circle class="nf" cx="${qC.x}" cy="${qC.y}" r="11" style="fill:none;stroke:var(--pink);stroke-width:2;stroke-dasharray:4 4"/>`;
+
+   const O_Cir={x:135,y:140}, r_Cir=45;
+   const tp1={x:105,y:95}, tp2={x:165,y:95}, tp3={x:202.5,y:185}, tp4={x:67.5,y:185};
+
+   if(V('circCir'))s+=`<circle pathLength="1" class="${c('circCir','cir-teal')}" cx="${O_Cir.x}" cy="${O_Cir.y}" r="${r_Cir}"/>`;
+   if(V('quadCir')){
+    s+=`<polygon pathLength="1" class="${c('quadCir','tf h2')}" style="stroke:var(--pink);stroke-width:2.2" points="${tp1.x},${tp1.y} ${tp2.x},${tp2.y} ${tp3.x},${tp3.y} ${tp4.x},${tp4.y}"/>`;
+    s+=`<text class="lb nf" style="fill:var(--pink);font-weight:800" x="${O_Cir.x-56}" y="34">چهارضلعی محیطی (چپ)</text>`;
+   }
+   if(V('sideLabels')){
+    s+=`<text class="lb nf" style="fill:var(--pink);font-weight:800;font-size:14px" x="${(tp1.x+tp2.x)/2-4}" y="${tp1.y-6}">a</text>`;
+    s+=`<text class="lb nf" style="fill:var(--teal);font-weight:800;font-size:14px" x="${tp2.x+24}" y="${(tp2.y+tp3.y)/2+4}">b</text>`;
+    s+=`<text class="lb nf" style="fill:var(--pink);font-weight:800;font-size:14px" x="${(tp3.x+tp4.x)/2-4}" y="${tp3.y+18}">c</text>`;
+    s+=`<text class="lb nf" style="fill:var(--teal);font-weight:800;font-size:14px" x="${tp4.x-18}" y="${(tp4.y+tp1.y)/2+4}">d</text>`;
+   }
+  }
+
+  svg.innerHTML=s;fresh.clear();
+ }
+
+ const cue=(sh,h)=>{
+  (sh||'').split(' ').filter(Boolean).forEach(k=>{if(!vis.has(k)){vis.add(k);fresh.add(k)}});
+  hl=h||{};draw();
+ };
+
+ draw();
+ return{w,cue};
+}
+
+stage(0);
+</script>
+</body>
+</html>
