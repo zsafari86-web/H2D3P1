@@ -12,12 +12,6 @@
   --hdr-h:65px;
   box-sizing:border-box;
 }
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){
-    --bg:#0e1b1f;--ink:#e3f1ef;--teal:#37c4be;--blue:#60a5fa;--pink:#ff7aa8;
-    --am:#ffc247;--card:#16282d;--line:#27424a;--ok:#4fd592;--mut:#97b3b8;--pur:#c084fc;
-  }
-}
 :root[data-theme="dark"]{
   --bg:#0e1b1f;--ink:#e3f1ef;--teal:#37c4be;--blue:#60a5fa;--pink:#ff7aa8;
   --am:#ffc247;--card:#16282d;--line:#27424a;--ok:#4fd592;--mut:#97b3b8;--pur:#c084fc;
@@ -34,8 +28,9 @@ header{
   padding:10px 14px;display:flex;align-items:center;justify-content:space-between;
   gap:8px;flex-wrap:wrap;position:sticky;top:0;z-index:30;box-shadow:0 2px 10px rgba(0,0,0,.15);
 }
-header b{font-size:1rem;font-weight:800}
+header b{font-size:0.98rem;font-weight:800}
 .author{font-size:.8rem;font-weight:600;background:rgba(255,255,255,.2);padding:2px 8px;border-radius:8px}
+.hdr-tools{display:flex;align-items:center;gap:6px;}
 .dots{display:flex;gap:5px;flex-wrap:wrap}
 .dots button{
   width:26px;height:26px;border-radius:50%;border:2px solid #fff;background:transparent;
@@ -43,14 +38,14 @@ header b{font-size:1rem;font-weight:800}
 }
 .dots button.on{background:#fff;color:var(--teal);font-weight:800;transform:scale(1.1)}
 
-.spd-btn{
+.spd-btn, .tool-btn{
   border:0;background:rgba(255,255,255,.24);color:#fff;border-radius:8px;
-  padding:4px 12px;font:inherit;cursor:pointer;font-size:.82rem;font-weight:700;
+  padding:4px 10px;font:inherit;cursor:pointer;font-size:.8rem;font-weight:700;
   display:inline-flex;align-items:center;gap:4px;transition:.2s;
 }
-.spd-btn:active{background:rgba(255,255,255,.4)}
+.spd-btn:active, .tool-btn:active{background:rgba(255,255,255,.4)}
 
-main{max-width:760px;margin:0 auto;padding:0 14px 140px}
+main{max-width:780px;margin:0 auto;padding:0 14px 160px}
 #fig{
   position:sticky;top:var(--hdr-h, 65px);z-index:20;padding:6px 0 10px;background:var(--bg);
 }
@@ -84,28 +79,26 @@ h2{margin:14px 0 8px;font-size:1.24rem;color:var(--teal);font-weight:800}
 
 .f,.f2{
   direction:ltr!important;text-align:center;font-weight:700;color:var(--pink);
-  margin:10px auto;padding:10px 16px;display:flex;justify-content:center;align-items:center;
-  flex-wrap:wrap;gap:8px;line-height:1.8;background:rgba(209,52,111,.05);border-radius:10px;
+  margin:12px auto;padding:12px 14px;display:block;
+  line-height:2.3;background:rgba(209,52,111,.05);border-radius:10px;
   border:1px dashed rgba(209,52,111,.28);unicode-bidi:isolate;
 }
-.f{font-size:1.24rem;min-height:2.4em}
-.f2{font-size:1.14rem}
+.f{font-size:1.22rem;min-height:2.4em}
+.f2{font-size:1.12rem}
 
 .math-tag{
   direction:ltr!important;font-family:inherit;font-weight:700;white-space:nowrap;
-  display:inline-flex;align-items:center;justify-content:center;gap:4px;color:var(--pink);
-  background:rgba(209,52,111,.06);padding:3px 8px;border-radius:6px;border:1px dashed rgba(209,52,111,.25);font-size:1rem;
+  display:inline-block;color:var(--pink);
+  background:rgba(209,52,111,.06);padding:3px 10px;border-radius:6px;border:1px dashed rgba(209,52,111,.25);font-size:1rem;
 }
 .rad{display:inline-flex;align-items:baseline;direction:ltr;unicode-bidi:isolate;white-space:nowrap;margin:0 2px}
 .r-sym{font-size:1.2em;line-height:1;margin-right:1px;font-family:system-ui,-apple-system,sans-serif;user-select:none}
 .r-body{border-top:2px solid currentColor;padding:0 3px;line-height:1.2;display:inline-block;white-space:nowrap;font-size:.95em}
 
-/* کسر ریاضی استاندارد */
-.fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 .3em;line-height:1.15}
-.fr .n{border-bottom:2px solid currentColor;padding:0 .35em;font-size:0.95em}
-.fr .dn{padding:0 .35em;font-size:0.95em}
+.fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 .3em;line-height:1.1}
+.fr .n{border-bottom:1.8px solid currentColor;padding:0 .35em;font-size:0.92em;text-align:center}
+.fr .dn{padding:0 .35em;font-size:0.92em;text-align:center}
 
-/* نشان‌های رنگی هماهنگ برای نام شکل‌ها و ویژگی‌ها در بخش ۵ */
 .badge-item{
   display:inline-block;
   background:rgba(11,127,128,0.14);
@@ -118,15 +111,28 @@ h2{margin:14px 0 8px;font-size:1.24rem;color:var(--teal);font-weight:800}
   line-height:1.8;
 }
 
-.demo,.quiz{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:6px;margin:10px 0}
+sub{font-size:0.72em;line-height:0;position:relative;bottom:-0.28em;vertical-align:baseline;font-weight:800;}
+
+.demo,.quiz{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:8px;margin:10px 0}
 #fig .demo{margin:0;box-shadow:0 8px 16px -6px rgba(0,0,0,.15);border:1.5px solid var(--line)}
-svg{user-select:none;-webkit-user-select:none;width:100%;height:auto;display:block;direction:ltr;touch-action:none;max-height:28vh}
+svg{user-select:none;-webkit-user-select:none;width:100%;height:auto;display:block;direction:ltr;touch-action:none;max-height:33vh}
 
 button.go{
-  display:flex;align-items:center;justify-content:center;gap:8px;
-  margin:18px auto;padding:11px 24px;font:inherit;font-weight:700;font-size:0.98rem;
-  color:#fff;background:linear-gradient(135deg,var(--pink),#e11d48);
-  border:none;border-radius:14px;cursor:pointer;
+  display:block;
+  text-align:center;
+  line-height:1.8;
+  white-space:normal;
+  max-width:92%;
+  margin:18px auto;
+  padding:12px 20px;
+  font:inherit;
+  font-weight:700;
+  font-size:0.98rem;
+  color:#fff;
+  background:linear-gradient(135deg,var(--pink),#e11d48);
+  border:none;
+  border-radius:14px;
+  cursor:pointer;
   box-shadow:0 4px 18px rgba(209,52,111,.38);
   animation:btnPulse 2.2s infinite ease-in-out;
   transition:transform .15s ease;
@@ -155,24 +161,38 @@ button.go:active{transform:scale(0.96)}
 .badge-ext{background:rgba(37,99,235,.12);color:var(--blue)}
 .badge-int{background:rgba(209,52,111,.12);color:var(--pink)}
 
-/* استایل‌های اشکال SVG */
-circle.cir-blue{fill:none;stroke:var(--blue);stroke-width:2.2}
-circle.cir-pur{fill:none;stroke:var(--pur);stroke-width:2.2}
+.modal-overlay{
+  position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.55);
+  backdrop-filter:blur(3px);z-index:900;display:none;align-items:center;justify-content:center;padding:16px;
+}
+.modal-overlay.open{display:flex;}
+.modal-card{
+  background:var(--card);border-radius:18px;max-width:520px;width:100%;padding:20px 24px;
+  box-shadow:0 12px 36px rgba(0,0,0,0.3);position:relative;border:2px solid var(--teal);animation:popIn 0.3s ease;
+}
+@keyframes popIn{from{transform:scale(0.85);opacity:0}to{transform:scale(1);opacity:1}}
+.modal-card h3{margin-top:0;color:var(--teal);display:flex;align-items:center;gap:8px;}
+.close-btn{position:absolute;top:14px;left:14px;background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--mut);}
+
+polygon { fill: none; }
+.tf{fill:none;stroke:none}
+.tf.h1{fill:var(--blue);fill-opacity:.22;stroke:none}
+.tf.h2{fill:var(--pink);fill-opacity:.22;stroke:none}
+.tf.h3{fill:var(--teal);fill-opacity:.26;stroke:none}
+
+circle.cir-blue{fill:none;stroke:var(--blue);stroke-width:2.4}
 circle.cir-teal{fill:none;stroke:var(--teal);stroke-width:2.4}
+circle.cir-pink{fill:none;stroke:var(--pink);stroke-width:2.4}
 .ln-blue{stroke:var(--blue);stroke-width:2}
-.ln{stroke:var(--ink);stroke-width:1.8}
-.ln-help{stroke:var(--pink);stroke-width:1.8;stroke-dasharray:5 4}
-.ln-bisect{stroke:var(--am);stroke-width:2;stroke-dasharray:6 4}
+.ln{stroke:var(--ink);stroke-width:2.4;fill:none}
+.ln-help{stroke:var(--pink);stroke-width:2;stroke-dasharray:5 4}
+.ln-bisect{stroke:var(--am);stroke-width:2.2;stroke-dasharray:6 4}
 .pt{fill:var(--card);stroke:var(--ink);stroke-width:2}
 .pt-blue{fill:var(--blue);stroke:#fff;stroke-width:2}
 .pt-pur{fill:var(--pur);stroke:#fff;stroke-width:2}
 .pt-tan{fill:var(--am);stroke:var(--ink);stroke-width:1.8}
-.tf{fill:none;stroke:none}
-.tf.h1{fill:var(--blue);fill-opacity:.18;stroke:var(--blue);stroke-width:1.8}
-.tf.h2{fill:var(--pink);fill-opacity:.18;stroke:var(--pink);stroke-width:1.8}
-.tf.h3{fill:var(--teal);fill-opacity:.18;stroke:var(--teal);stroke-width:1.8}
 .sq{fill:none;stroke:var(--pink);stroke-width:1.8}
-text.lb{font:600 13px Vazirmatn,sans-serif;fill:var(--ink)}
+text.lb{font:700 14px Vazirmatn,sans-serif;fill:var(--ink)}
 
 .nw{stroke-dasharray:1;stroke-dashoffset:1;animation:dr 1.2s ease forwards}
 @keyframes dr{to{stroke-dashoffset:0}}
@@ -182,16 +202,38 @@ text.lb{font:600 13px Vazirmatn,sans-serif;fill:var(--ink)}
 </style>
 </head>
 <body>
+
+<canvas id="confettiCanvas" style="position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:9999;"></canvas>
+
+<!-- پنجره فرمول‌نامه -->
+<div id="cheatModal" class="modal-overlay">
+  <div class="modal-card">
+    <button class="close-btn" onclick="$('#cheatModal').classList.remove('open')">✕</button>
+    <h3>📋 جعبه‌ابزار فرمول‌های چندضلعی‌ها</h3>
+    <p><b>۱. شرط محاطی بودن:</b> همرسی عمودمنصف‌های اضلاع (<span class="math-tag">OA = OB = OC = ... = R</span>)</p>
+    <p><b>۲. شرط محیطی بودن:</b> همرسی نیمسازهای زوایای داخلی</p>
+    <p><b>۳. فرمول مساحت چندضلعی محیطی:</b> <span class="math-tag">S = r · p</span> (p: نیم‌محیط)</p>
+    <p><b>۴. چهارضلعی محاطی:</b> <span class="math-tag">Â + Ĉ = 180°</span> و <span class="math-tag">B̂ + D̂ = 180°</span></p>
+    <p><b>۵. چهارضلعی محیطی (قضیه پیتو):</b> <span class="math-tag">a + c = b + d</span> (تساوی مجموع اضلاع روبرو)</p>
+  </div>
+</div>
+
 <header id="header">
   <b>چندضلعی‌های محاطی و محیطی (هندسه ۲)</b>
   <span class="author">طراح: زینب صفری</span>
   <div class="dots" id="dots"></div>
-  <button class="spd-btn" id="spdBtn">⏱ سرعت: ۱x (آرام)</button>
+  <div class="hdr-tools">
+    <button class="tool-btn" onclick="$('#cheatModal').classList.add('open')">📋 فرمول‌نامه</button>
+    <button class="spd-btn" id="spdBtn">⏱ ۱x (آرام)</button>
+    <button class="tool-btn" id="themeBtn" title="تغییر تم">🌓</button>
+  </div>
 </header>
+
 <main>
   <div id="fig"></div>
   <div id="txt"></div>
 </main>
+
 <script>
 const NS='http://www.w3.org/2000/svg',$=s=>document.querySelector(s);
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
@@ -199,14 +241,19 @@ const el=(t,c)=>{const e=document.createElement(t);if(c)e.className=c;return e};
 let run=0,F=null;
 
 const speedProfiles = [
-  { label: '⏱ سرعت: ۱x (آرام)', factor: 1 },
-  { label: '⏱ سرعت: ۱.۵x (متوسط)', factor: 0.6 },
-  { label: '⏱ سرعت: ۲x (سریع)', factor: 0.3 }
+  { label: '⏱ ۱x (آرام)', factor: 1 },
+  { label: '⏱ ۱.۵x (متوسط)', factor: 0.6 },
+  { label: '⏱ ۲x (سریع)', factor: 0.3 }
 ];
 let spdIdx = 0;
 $('#spdBtn').onclick = () => {
   spdIdx = (spdIdx + 1) % speedProfiles.length;
   $('#spdBtn').textContent = speedProfiles[spdIdx].label;
+};
+
+$('#themeBtn').onclick = () => {
+  const cur = document.documentElement.getAttribute('data-theme');
+  document.documentElement.setAttribute('data-theme', cur === 'dark' ? 'light' : 'dark');
 };
 
 function syncHeaderHeight(){
@@ -216,6 +263,76 @@ function syncHeaderHeight(){
 window.addEventListener('resize', syncHeaderHeight);
 window.addEventListener('load', syncHeaderHeight);
 syncHeaderHeight();
+
+/* کانواس بارش گل و ستاره */
+const canvas = $('#confettiCanvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+
+function resizeCanvas(){
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+function launchShower(type = 'flower'){
+  const emojis = type === 'flower' ? ['🌸','🌺','🌼','🌷'] : ['🎉','⭐','✨','👏','🥳'];
+  for(let i=0; i<30; i++){
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: -20,
+      char: emojis[Math.floor(Math.random() * emojis.length)],
+      size: Math.random() * 16 + 18,
+      vx: (Math.random() - 0.5) * 3,
+      vy: Math.random() * 3 + 2.5,
+      rot: Math.random() * 360,
+      vRot: (Math.random() - 0.5) * 4,
+      alpha: 1
+    });
+  }
+}
+
+function updateConfetti(){
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  for(let i = particles.length - 1; i >= 0; i--){
+    const p = particles[i];
+    p.x += p.vx;
+    p.y += p.vy;
+    p.rot += p.vRot;
+    p.alpha -= 0.009;
+    ctx.save();
+    ctx.translate(p.x, p.y);
+    ctx.rotate(p.rot * Math.PI / 180);
+    ctx.globalAlpha = Math.max(0, p.alpha);
+    ctx.font = p.size + 'px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(p.char, 0, 0);
+    ctx.restore();
+    if(p.alpha <= 0 || p.y > canvas.height + 30) particles.splice(i, 1);
+  }
+  requestAnimationFrame(updateConfetti);
+}
+updateConfetti();
+
+function playChime(){
+  try{
+    const ac = new (window.AudioContext || window.webkitAudioContext)();
+    const freqs = [523.25, 659.25, 783.99, 1046.50];
+    freqs.forEach((f, i) => {
+      const osc = ac.createOscillator();
+      const g = ac.createGain();
+      osc.type = 'triangle';
+      osc.frequency.value = f;
+      g.gain.setValueAtTime(0.12, ac.currentTime + i * 0.09);
+      g.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + i * 0.09 + 0.35);
+      osc.connect(g);
+      g.connect(ac.destination);
+      osc.start(ac.currentTime + i * 0.09);
+      osc.stop(ac.currentTime + i * 0.09 + 0.4);
+    });
+  }catch(e){}
+}
 
 let lastScroll=0;
 function ensureVisible(e, isBtn=false, force=false){
@@ -233,17 +350,19 @@ function ensureVisible(e, isBtn=false, force=false){
   }
 }
 
-function formatMath(str){
+function renderMath(str){
+ if(!str) return '';
  let s = str;
- s = s.replace(/\\frac\{([^}]+)\}\{([^}]+)\}/g, '<span class="fr"><span class="n">$1</span><span class="dn">$2</span></span>');
+ s = s.replace(/\\\\/g, '<br style="margin:6px 0;">');
+ s = s.replace(/\\implies/g, ' ⟹ ');
+ s = s.replace(/\\qquad/g, '&emsp;&emsp;');
+ s = s.replace(/\\quad/g, '&emsp;');
+ s = s.replace(/\\?frac\{([^}]+)\}\{([^}]+)\}/g, '<span class="fr"><span class="n">$1</span><span class="dn">$2</span></span>');
  s = s.replace(/√\(([^)]+)\)/g, '<span class="rad"><span class="r-sym">√</span><span class="r-body">$1</span></span>');
  s = s.replace(/\\sqrt\{([^}]+)\}/g, '<span class="rad"><span class="r-sym">√</span><span class="r-body">$1</span></span>');
  s = s.replace(/√([0-9a-zA-Z\u200E′]+)/g, '<span class="rad"><span class="r-sym">√</span><span class="r-body">$1</span></span>');
+ s = s.replace(/\[([^\]]+)\]/g, '<span class="badge-item">$1</span>');
  return s;
-}
-
-function formatBadges(str){
- return str.replace(/\[([^\]]+)\]/g, '<span class="badge-item">$1</span>');
 }
 
 async function typeWords(e, txt, tok){
@@ -254,7 +373,7 @@ async function typeWords(e, txt, tok){
     if(tok !== run) return;
     const w = words[i];
     accumulated += (i === 0 ? '' : ' ') + w;
-    e.innerHTML = formatBadges(accumulated);
+    e.innerHTML = renderMath(accumulated);
     ensureVisible(e);
     
     const factor = speedProfiles[spdIdx].factor;
@@ -269,7 +388,7 @@ async function typeWords(e, txt, tok){
 
 async function typeFormula(e, str, tok){
   e.classList.add('typing');
-  e.innerHTML = formatMath(str);
+  e.innerHTML = renderMath(str);
   ensureVisible(e, false, true);
   const factor = speedProfiles[spdIdx].factor;
   await sleep(600 * factor);
@@ -303,7 +422,7 @@ const S=[
 }]]},
 
 {k:'fig_inscribed',h:'۲. شرط لازم و کافی محاطی بودن (عمودمنصف‌ها)',items:[
-['obj','🎯 هدف این بخش: می‌خواهیم بدانیم مرکز دایره‌ای که از همهٔ رأس‌های یک چندضلعی می‌گذرد دقیقاً کجاست؟ قضیهٔ این بخش ثابت می‌کند که این مرکز، محل برخورد عمودمنصف‌های اضلاع است.'],
+['obj','🎯 هدف این بخش: می‌خواهیم بدانیم مرکز دایره‌ای که از همهٔ رأس‌های یک چندضلعی می‌گذرد کجاست؟ قضیهٔ این بخش ثابت می‌کند که این مرکز، محل برخورد عمودمنصف‌های اضلاع است.'],
 ['d','قضیه چندضلعی‌های محاطی: یک چندضلعی، محاطی است اگر و فقط اگر عمودمنصف‌های همهٔ ضلع‌های آن در یک نقطه همرس باشند. این نقطه مرکز دایرهٔ محیطی است.'],
 ['p','پنج‌ضلعی محاطی ABCDE را در کادر بالا در نظر بگیرید:','circ poly pts',{circ:1,poly:1,pts:1}],
 ['btn','👇 شروع اثبات هندسی قضیه'],
@@ -533,7 +652,7 @@ const S=[
  h:'نیمسازهای یک مستطیل را رسم کنید؛ در یک نقطه به هم نمی‌رسند بلکه درون مستطیل یک چهارضلعی می‌سازند.',
  e:'نیمسازهای چهار زاویهٔ یک مستطیل در یک نقطه همرس نمی‌شوند، بنابراین دایره‌ای مماس بر هر چهار ضلع آن وجود ندارد.'
 }],
-['p','آفرین! شما تمامی مفاهیم، قضایا و فعالیت‌های چندضلعی‌های محاطی و محیطی را با موفقیت فرا گرفتید. 🌟']
+['p','آفرین! شما تمامی مفاهیم و فرمول‌های چندضلعی‌های محاطی و محیطی را با موفقیت فرا گرفتید. 🌟']
 ]}
 ];
 
@@ -544,6 +663,8 @@ async function stage(i){
  const tok=++run;const s=S[i],box=$('#txt');box.innerHTML='';mark(i);window.scrollTo(0,0);
  $('#fig').innerHTML='';F=s.k?mkFig(s.k):null;if(F)$('#fig').append(F.w);
  syncHeaderHeight();
+ 
+ if(i > 0) launchShower('flower');
  
  const h=el('h2');box.append(h);await typeWords(h,s.h,tok);
  const factor = speedProfiles[spdIdx].factor;
@@ -573,13 +694,17 @@ async function stage(i){
  }
  if(tok!==run)return;
  const n=el('button','go');n.textContent=i<S.length-1?'گام بعدی ◀':'شروع دوباره';
- n.onclick=()=>stage((i+1)%S.length);box.append(n);ensureVisible(n, true, true);
+ n.onclick=()=>{
+   launchShower('flower');
+   stage((i+1)%S.length);
+ };
+ box.append(n);ensureVisible(n, true, true);
 }
 
 function gate(box,label){
   return new Promise(r=>{
     const b=el('button','go');
-    b.textContent=label;
+    b.innerHTML = renderMath(label);
     b.onclick=()=>{b.remove();r()};
     box.append(b);
     ensureVisible(b, true, true);
@@ -590,14 +715,17 @@ function quiz(box,v){
   return new Promise(res=>{
     const q=el('div','quiz'),t=el('b'),row=el('div','opts'),fb=el('div','fb');t.textContent=v.q;
     v.o.forEach((s,i)=>{
-      const b=el('button','opt');b.dir='auto';b.textContent=s;
+      const b=el('button','opt');b.dir='auto';b.innerHTML=renderMath(s);
       b.onclick=()=>{
         if(i===v.a){
-          b.classList.add('ok');fb.textContent='آفرین! '+v.e;
+          b.classList.add('ok');
+          fb.innerHTML='🎉 هورااا! آفرین! '+renderMath(v.e);
+          launchShower('celebrate');
+          playChime();
           row.querySelectorAll('button').forEach(x=>x.disabled=true);
-          setTimeout(res,1400);
+          setTimeout(res,1600);
         } else {
-          b.classList.add('no');fb.textContent='دوباره فکر کن. راهنما: '+v.h;
+          b.classList.add('no');fb.innerHTML='دوباره فکر کن. راهنما: '+renderMath(v.h);
         }
       };
       row.append(b);
